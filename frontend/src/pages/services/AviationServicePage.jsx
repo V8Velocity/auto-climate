@@ -138,17 +138,26 @@ export default function AviationServicePage() {
         </header>
 
         {/* Airport Selector */}
-        <div className="airport-selector">
-          {airports.map(airport => (
-            <button
-              key={airport.code}
-              className={`airport-btn ${selectedAirport === airport.code ? 'active' : ''}`}
-              onClick={() => setSelectedAirport(airport.code)}
-            >
-              <span className="airport-code">{airport.code}</span>
-              <span className="airport-city">{airport.city}</span>
-            </button>
-          ))}
+        <div className="selector-container">
+          <div className="selector-header">
+            <Plane size={18} style={{ color: '#3b82f6' }} />
+            <span className="selector-title">Select Airport</span>
+          </div>
+          <div className="airport-selector">
+            {airports.map(airport => (
+              <button
+                key={airport.code}
+                className={`airport-btn ${selectedAirport === airport.code ? 'active' : ''}`}
+                onClick={() => setSelectedAirport(airport.code)}
+              >
+                <Plane size={14} />
+                <div className="airport-btn-content">
+                  <span className="airport-code">{airport.code}</span>
+                  <span className="airport-city">{airport.city}</span>
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
 
         {loading ? (
@@ -159,32 +168,47 @@ export default function AviationServicePage() {
         ) : (
           <>
             {/* Airport Header */}
-            <div className="card airport-header">
-              <div className="airport-info">
-                <Plane size={32} style={{ color: '#3b82f6' }} />
-                <div>
-                  <h2>{data.airport.code} - {data.airport.name}</h2>
-                  <span className="airport-city-label">{data.airport.city}</span>
+            <div className="card airport-header-card">
+              <div className="airport-header-content">
+                <div className="airport-title-section">
+                  <div className="airport-icon-box">
+                    <Plane size={32} style={{ color: '#3b82f6' }} />
+                  </div>
+                  <div className="airport-name-info">
+                    <h2 className="airport-title">{data.airport.code} - {data.airport.name}</h2>
+                    <div className="airport-location">
+                      <MapPin size={14} style={{ color: '#60a5fa' }} />
+                      <span>{data.airport.city}</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div 
-                className="flight-category" 
-                style={{ background: data.conditions.category.color }}
-              >
-                <span className="cat-code">{data.conditions.category.cat}</span>
-                <span className="cat-desc">{data.conditions.category.desc}</span>
+                <div 
+                  className="flight-category-badge" 
+                  style={{ 
+                    background: `linear-gradient(135deg, ${data.conditions.category.color}dd, ${data.conditions.category.color}99)`,
+                    borderColor: data.conditions.category.color
+                  }}
+                >
+                  <span className="cat-code">{data.conditions.category.cat}</span>
+                  <span className="cat-desc">{data.conditions.category.desc}</span>
+                </div>
               </div>
             </div>
 
             {/* METAR */}
             <div className="card metar-card">
-              <h3 className="card-section-title">
-                <Layers size={18} />
-                Current METAR
-              </h3>
+              <div className="metar-header">
+                <div className="metar-title">
+                  <Layers size={20} style={{ color: '#8b5cf6' }} />
+                  <h3>Current METAR</h3>
+                </div>
+                <div className="metar-time">
+                  <Clock size={14} />
+                  <span>Issued: {data.metar.time}</span>
+                </div>
+              </div>
               <div className="metar-display">
                 <code className="metar-raw">{data.metar.raw}</code>
-                <span className="metar-time">Issued: {data.metar.time}</span>
               </div>
             </div>
 

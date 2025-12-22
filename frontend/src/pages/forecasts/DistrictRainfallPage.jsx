@@ -10,6 +10,7 @@ import {
   Wind
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import './DistrictRainfallPage.css';
 
 const districts = [
   // North India
@@ -53,7 +54,7 @@ const generateDistrictData = () => {
       
       days.push({
         day: i,
-        date: date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+        date: date.toLocaleDateString('en-US', { weekday: 'short', month: 'short' }),
         rainfall: Math.round(Math.random() * 50),
         probability: Math.round(20 + Math.random() * 70),
         maxTemp: Math.round(25 + Math.random() * 12),
@@ -202,7 +203,7 @@ export default function DistrictRainfallPage({ weatherData }) {
                   <div className="district-forecast">
                     {district.days.map(day => (
                       <div key={day.day} className="district-day">
-                        <span className="day-date">{day.date.split(' ').slice(0, 2).join(' ')}</span>
+                        <span className="day-date">{day.date}</span>
                         <div 
                           className="rainfall-indicator"
                           style={{ backgroundColor: getRainfallColor(day.rainfall) }}

@@ -10,15 +10,18 @@ import {
   Droplets,
   Mountain,
   Shield,
-  Bell
+  Bell,
+  TrendingUp,
+  Info
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import './FlashFloodPage.css';
 
 const riskLevels = {
-  extreme: { color: '#7c3aed', label: 'Extreme Risk', icon: '🔴' },
-  high: { color: '#ef4444', label: 'High Risk', icon: '🟠' },
-  moderate: { color: '#f97316', label: 'Moderate Risk', icon: '🟡' },
-  low: { color: '#22c55e', label: 'Low Risk', icon: '🟢' },
+  extreme: { color: '#dc2626', label: 'Extreme Risk', icon: '🔴', priority: 1 },
+  high: { color: '#ef4444', label: 'High Risk', icon: '🟠', priority: 2 },
+  moderate: { color: '#f97316', label: 'Moderate Risk', icon: '🟡', priority: 3 },
+  low: { color: '#22c55e', label: 'Low Risk', icon: '🟢', priority: 4 },
 };
 
 const vulnerableAreas = [
@@ -125,15 +128,18 @@ export default function FlashFloodPage({ weatherData }) {
         )}
 
         {/* Risk Summary */}
-        <div className="grid-4">
+        <div className="risk-summary-grid">
           {Object.entries(riskLevels).map(([key, value]) => {
             const count = floodData.filter(d => d.risk === key).length;
             return (
               <div 
                 key={key}
-                className={`card risk-stat-card ${filterRisk === key ? 'active' : ''}`}
+                className={`risk-stat-card ${filterRisk === key ? 'active' : ''}`}
                 onClick={() => setFilterRisk(filterRisk === key ? 'all' : key)}
-                style={{ borderColor: count > 0 ? value.color : 'transparent' }}
+                style={{ 
+                  borderColor: count > 0 ? value.color : 'rgba(255, 255, 255, 0.08)',
+                  color: value.color 
+                }}
               >
                 <span className="risk-icon">{value.icon}</span>
                 <span className="risk-count">{count}</span>
@@ -146,8 +152,21 @@ export default function FlashFloodPage({ weatherData }) {
         {/* Area-wise Data */}
         <div className="card">
           <div className="card-header-row">
-            <h3 className="card-section-title">Area-wise Flash Flood Risk</h3>
-            <button className="refresh-btn-small" onClick={() => setFloodData(generateFlashFloodData())}>
+            <h3 className="card-section-title">
+              <MapPin size={20} />
+              Area-wise Flash Flood Risk
+            </h3>
+            <button 
+              className="refresh-btn-small" 
+              onClick={() => {
+                setLoading(true);
+                setTimeout(() => {
+                  setFloodData(generateFlashFloodData());
+                  setLoading(false);
+                }, 600);
+              }}
+              title="Refresh flood data"
+            >
               <RefreshCw size={16} className={loading ? 'spinning' : ''} />
             </button>
           </div>
@@ -157,9 +176,18 @@ export default function FlashFloodPage({ weatherData }) {
               <RefreshCw size={32} className="spinning" />
               <p>Loading flood risk data...</p>
             </div>
+          ) : filteredData.length === 0 ? (
+            <div className="no-alerts">
+              <Shield size={64} />
+              <h3>No Areas Found</h3>
+              <p>
+                No areas matching the selected risk level. 
+                {filterRisk !== 'all' && ' Try selecting a different filter.'}
+              </p>
+            </div>
           ) : (
             <div className="flood-area-grid">
-              {filteredData.map((area, idx) => (
+              {filteredData.sort((a, b) => riskLevels[a.risk].priority - riskLevels[b.risk].priority).map((area, idx) => (
                 <div 
                   key={idx} 
                   className={`flood-area-card ${area.hasWarning ? 'has-warning' : ''}`}

@@ -15,7 +15,8 @@ import {
   Info,
   ChevronDown,
   ChevronUp,
-  Map
+  Map,
+  Layers
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -134,17 +135,23 @@ export default function HazardAtlasPage({ weatherData }) {
         </header>
 
         {/* State Selector */}
-        <div className="state-selector hazard-selector">
-          <label>Select State:</label>
-          <select 
-            value={selectedState}
-            onChange={(e) => setSelectedState(e.target.value)}
-            className="state-dropdown"
-          >
+        <div className="selector-container">
+          <div className="selector-header">
+            <MapPin size={18} style={{ color: '#f97316' }} />
+            <span className="selector-title">Select State/Region</span>
+          </div>
+          <div className="state-selector hazard-state-selector">
             {states.map(state => (
-              <option key={state} value={state}>{state}</option>
+              <button
+                key={state}
+                className={`state-btn hazard-state-btn ${selectedState === state ? 'active' : ''}`}
+                onClick={() => setSelectedState(state)}
+              >
+                <MapPin size={14} />
+                {state}
+              </button>
             ))}
-          </select>
+          </div>
         </div>
 
         {/* Risk Level Legend */}
@@ -307,16 +314,37 @@ export default function HazardAtlasPage({ weatherData }) {
             </div>
 
             {/* Map Placeholder */}
-            <div className="card">
+            <div className="card hazard-map-card">
               <h3 className="card-section-title">
                 <Map size={20} style={{ color: '#3b82f6' }} />
-                Hazard Map Visualization
+                Interactive Hazard Map Visualization
               </h3>
               <div className="map-placeholder hazard-map">
-                <Map size={64} style={{ color: 'rgba(255,255,255,0.3)' }} />
-                <h4>Interactive Hazard Map</h4>
-                <p>District-level vulnerability visualization</p>
-                <span className="map-note">Click on districts to view detailed risk assessment</span>
+                <div className="map-placeholder-content">
+                  <div className="map-icon-container">
+                    <Map size={80} style={{ color: '#3b82f6' }} />
+                  </div>
+                  <h4 className="map-placeholder-title">District-Level Vulnerability Map</h4>
+                  <p className="map-placeholder-desc">Interactive visualization showing hazard distribution across {selectedState}</p>
+                  <div className="map-features">
+                    <div className="map-feature-item">
+                      <MapPin size={16} style={{ color: '#22c55e' }} />
+                      <span>Click districts for detailed risk data</span>
+                    </div>
+                    <div className="map-feature-item">
+                      <Layers size={16} style={{ color: '#3b82f6' }} />
+                      <span>Toggle hazard type layers</span>
+                    </div>
+                    <div className="map-feature-item">
+                      <AlertTriangle size={16} style={{ color: '#f97316' }} />
+                      <span>View historical event markers</span>
+                    </div>
+                  </div>
+                  <div className="map-coming-soon">
+                    <Info size={16} />
+                    <span>Full interactive map coming soon</span>
+                  </div>
+                </div>
               </div>
             </div>
           </>

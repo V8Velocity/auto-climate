@@ -14,6 +14,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import './CAPAlertsPage.css';
 
 const severityLevels = {
   extreme: { color: '#7c3aed', label: 'Extreme', priority: 1 },
@@ -117,15 +118,20 @@ export default function CAPAlertsPage({ weatherData }) {
         </header>
 
         {/* Alert Summary */}
-        <div className="grid-4 alert-summary">
+        <div className="alert-summary">
           {Object.entries(severityLevels).map(([key, value]) => (
             <div 
               key={key} 
               className={`card alert-count-card ${filterSeverity === key ? 'active' : ''}`}
               onClick={() => setFilterSeverity(filterSeverity === key ? 'all' : key)}
-              style={{ borderColor: value.color }}
+              style={{ 
+                borderTopColor: value.color,
+                '--severity-color': value.color
+              }}
             >
-              <span className="alert-count" style={{ color: value.color }}>{alertCounts[key]}</span>
+              <span className="alert-count" style={{ color: value.color }}>
+                {alertCounts[key]}
+              </span>
               <span className="alert-label">{value.label}</span>
             </div>
           ))}
@@ -134,16 +140,33 @@ export default function CAPAlertsPage({ weatherData }) {
         {/* Filter Info */}
         {filterSeverity !== 'all' && (
           <div className="filter-info">
-            <span>Showing {severityLevels[filterSeverity].label} alerts</span>
-            <button onClick={() => setFilterSeverity('all')}>Clear filter</button>
+            <span>
+              Showing {filteredAlerts.length} {severityLevels[filterSeverity].label.toLowerCase()} 
+              {filteredAlerts.length === 1 ? ' alert' : ' alerts'}
+            </span>
+            <button onClick={() => setFilterSeverity('all')}>
+              Clear Filter
+            </button>
           </div>
         )}
 
         {/* Alerts List */}
         <div className="card">
           <div className="card-header-row">
-            <h3 className="card-section-title">Active Alerts ({filteredAlerts.length})</h3>
-            <button className="refresh-btn-small" onClick={() => setAlerts(generateCAPAlerts())}>
+            <h3 className="card-section-title">
+              Active Alerts ({filteredAlerts.length})
+            </h3>
+            <button 
+              className="refresh-btn-small" 
+              onClick={() => {
+                setLoading(true);
+                setTimeout(() => {
+                  setAlerts(generateCAPAlerts());
+                  setLoading(false);
+                }, 600);
+              }}
+              title="Refresh alerts"
+            >
               <RefreshCw size={16} className={loading ? 'spinning' : ''} />
             </button>
           </div>
@@ -155,9 +178,12 @@ export default function CAPAlertsPage({ weatherData }) {
             </div>
           ) : filteredAlerts.length === 0 ? (
             <div className="no-alerts">
-              <Shield size={48} />
+              <Shield size={64} />
               <h3>No Active Alerts</h3>
-              <p>There are currently no {filterSeverity !== 'all' ? severityLevels[filterSeverity].label.toLowerCase() : ''} weather alerts.</p>
+              <p>
+                There are currently no {filterSeverity !== 'all' ? severityLevels[filterSeverity].label.toLowerCase() + ' ' : ''}
+                weather alerts for your region.
+              </p>
             </div>
           ) : (
             <div className="alerts-list">
@@ -197,12 +223,12 @@ export default function CAPAlertsPage({ weatherData }) {
                     <div className="alert-details">
                       <div className="alert-timing">
                         <div className="timing-item">
-                          <Clock size={14} />
-                          <span>Effective: {alert.effective}</span>
+                          <Clock size={16} />
+                          <span><strong>Effective:</strong> {alert.effective}</span>
                         </div>
                         <div className="timing-item">
-                          <Calendar size={14} />
-                          <span>Expires: {alert.expires}</span>
+                          <Calendar size={16} />
+                          <span><strong>Expires:</strong> {alert.expires}</span>
                         </div>
                       </div>
 
@@ -233,23 +259,27 @@ export default function CAPAlertsPage({ weatherData }) {
 
         {/* CAP Info */}
         <div className="card info-card">
-          <h3 className="card-section-title">About CAP Alerts</h3>
+          <h3 className="card-section-title">
+            <Shield size={20} style={{ display: 'inline', marginRight: '0.5rem' }} />
+            About CAP Alerts
+          </h3>
           <p>
             The Common Alerting Protocol (CAP) is an international standard format for emergency alerts 
             and public warnings. CAP alerts provide standardized, machine-readable warnings that can be 
-            disseminated across multiple channels simultaneously.
+            disseminated across multiple channels simultaneously, ensuring timely and accurate information 
+            reaches those who need it most.
           </p>
           <div className="cap-features">
             <div className="feature-item">
-              <Shield size={20} />
+              <Shield size={24} />
               <span>Standardized Format</span>
             </div>
             <div className="feature-item">
-              <Bell size={20} />
+              <Bell size={24} />
               <span>Multi-channel Distribution</span>
             </div>
             <div className="feature-item">
-              <Clock size={20} />
+              <Clock size={24} />
               <span>Real-time Updates</span>
             </div>
           </div>

@@ -1,0 +1,430 @@
+/* Tourism Page Specific Styles */
+
+/* Type Filter Buttons */
+.type-filter {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.5rem;
+}
+
+.type-btn {
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.02em;
+}
+
+.type-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.type-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(139, 92, 246, 0.4);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.type-btn:hover::before {
+  opacity: 1;
+}
+
+.type-btn.active {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3));
+  border-color: rgba(139, 92, 246, 0.6);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3),
+              inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+.type-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+}
+
+/* Tourism Grid */
+.tourism-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .tourism-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tourism Card */
+.tourism-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.tourism-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3),
+              0 0 0 1px rgba(139, 92, 246, 0.2);
+}
+
+/* Destination Image */
+.dest-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 0;
+  position: relative;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
+}
+
+.dest-image-container {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+}
+
+.dest-image-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  pointer-events: none;
+}
+
+.dest-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.tourism-card:hover .dest-image {
+  transform: scale(1.05);
+}
+
+.dest-type-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 2;
+  letter-spacing: 0.03em;
+}
+
+/* Tourism Card Content */
+.tourism-card-content {
+  padding: 1.25rem;
+}
+
+/* Tourism Header */
+.tourism-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.dest-info {
+  flex: 1;
+}
+
+.dest-name {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #ffffff;
+  margin: 0 0 0.25rem 0;
+  letter-spacing: -0.01em;
+}
+
+.dest-type {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: rgba(139, 92, 246, 0.9);
+  background: rgba(139, 92, 246, 0.15);
+  padding: 0.25rem 0.65rem;
+  border-radius: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/* Visit Rating */
+.visit-rating {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star-filled {
+  color: #fbbf24;
+  fill: #fbbf24;
+}
+
+.star-empty {
+  color: rgba(255, 255, 255, 0.2);
+  fill: rgba(255, 255, 255, 0.1);
+}
+
+.visit-rating span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Destination Description */
+.dest-description {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0.75rem 0 1rem 0;
+}
+
+/* Destination Meta */
+.dest-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.meta-item svg {
+  color: rgba(139, 92, 246, 0.7);
+  flex-shrink: 0;
+}
+
+/* Tourism Forecast Days */
+.tourism-forecast {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tourism-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.75rem 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+}
+
+.tourism-day:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+.day-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tourism-day svg {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.icon-sun {
+  color: #fbbf24 !important;
+}
+
+.icon-cloud {
+  color: #94a3b8 !important;
+}
+
+.icon-rain {
+  color: #3b82f6 !important;
+}
+
+.day-temp {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.day-rain {
+  font-size: 0.7rem;
+  color: rgba(59, 130, 246, 0.8);
+  background: rgba(59, 130, 246, 0.15);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* Travel Tips */
+.travel-tips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.tip-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.tip-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateX(4px);
+}
+
+.tip-item svg {
+  color: rgba(139, 92, 246, 0.7);
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.tip-item strong {
+  display: block;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.tip-item p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 3rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+  color: rgba(139, 92, 246, 0.7);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .type-filter {
+    gap: 0.5rem;
+  }
+
+  .type-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .tourism-card-content {
+    padding: 1rem;
+  }
+
+  .dest-name {
+    font-size: 1.1rem;
+  }
+
+  .tourism-forecast {
+    gap: 0.375rem;
+  }
+
+  .tourism-day {
+    padding: 0.5rem 0.25rem;
+  }
+
+  .dest-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .travel-tips {
+    grid-template-columns: 1fr;
+  }
+}

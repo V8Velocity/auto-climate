@@ -1,0 +1,444 @@
+/* Flash Flood Bulletin Page Styles */
+
+/* Warning Banner */
+.flood-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.15));
+  border: 2px solid rgba(239, 68, 68, 0.4);
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.2);
+}
+
+.flood-warning svg {
+  color: #ef4444;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.flood-warning strong {
+  display: block;
+  font-size: 1.125rem;
+  color: #fff;
+  margin-bottom: 0.375rem;
+  font-weight: 700;
+}
+
+.flood-warning p {
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Risk Summary Cards */
+.risk-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.risk-stat-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.75rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.risk-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.risk-stat-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.risk-stat-card:hover::before {
+  opacity: 1;
+}
+
+.risk-stat-card.active {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: currentColor;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.risk-stat-card.active::before {
+  opacity: 1;
+}
+
+.risk-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.risk-count {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.risk-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Flood Area Grid */
+.flood-area-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.flood-area-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  border-left: 5px solid;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.flood-area-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.flood-area-card.has-warning {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.flood-area-card.has-warning::after {
+  content: '⚠';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  opacity: 0.6;
+}
+
+/* Area Header */
+.area-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.25rem 1.5rem;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.area-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.area-info svg {
+  color: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.area-info > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.area-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.area-state {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.risk-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+/* Area Metrics */
+.area-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.875rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.metric:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.metric svg {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-weight: 600;
+}
+
+.metric-value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Area Footer */
+.area-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.area-footer svg {
+  flex-shrink: 0;
+}
+
+/* Safety Tips Section */
+.safety-tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.safety-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.safety-tip:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateX(4px);
+}
+
+.tip-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(147, 51, 234, 0.3));
+  border: 2px solid rgba(59, 130, 246, 0.5);
+  border-radius: 50%;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #60a5fa;
+}
+
+.tip-text {
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  flex: 1;
+}
+
+/* Emergency Contacts */
+.emergency-contacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.contact-item:hover {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.15));
+  border-color: rgba(239, 68, 68, 0.4);
+  transform: scale(1.02);
+}
+
+.contact-name {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.contact-number {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+}
+
+/* Enhanced Card Titles */
+.card-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.card-section-title svg {
+  color: rgba(59, 130, 246, 0.8);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .flood-warning {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .risk-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .risk-stat-card {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .risk-icon {
+    font-size: 1.5rem;
+  }
+
+  .risk-count {
+    font-size: 2rem;
+  }
+
+  .flood-area-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .area-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .risk-badge {
+    align-self: flex-start;
+  }
+
+  .area-metrics {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .safety-tips-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .emergency-contacts {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-number {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .risk-summary-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .flood-warning strong {
+    font-size: 1rem;
+  }
+
+  .flood-warning p {
+    font-size: 0.875rem;
+  }
+}

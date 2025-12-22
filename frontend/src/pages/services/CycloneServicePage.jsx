@@ -140,15 +140,17 @@ export default function CycloneServicePage() {
         {/* Category Legend */}
         <div className="card cyclone-legend">
           <h3 className="card-section-title">
-            <Info size={18} />
+            <Info size={20} />
             Cyclone Classification (Wind Speed in km/h)
           </h3>
           <div className="category-legend">
             {cycloneCategories.map((cat, idx) => (
               <div key={idx} className="legend-item">
                 <span className="legend-dot" style={{ background: cat.color }} />
-                <span className="legend-name">{cat.name}</span>
-                <span className="legend-wind">{cat.windSpeed}</span>
+                <div className="legend-text">
+                  <span className="legend-name">{cat.name}</span>
+                  <span className="legend-wind">{cat.windSpeed} km/h</span>
+                </div>
               </div>
             ))}
           </div>
@@ -158,109 +160,136 @@ export default function CycloneServicePage() {
           <>
             {/* No Active Cyclone */}
             <div className="card no-cyclone-card">
-              <Shield size={48} style={{ color: '#22c55e' }} />
-              <h3>No Active Cyclonic Disturbances</h3>
-              <p>{data.message}</p>
-            </div>
-
-            {/* Last Cyclone Info */}
-            <div className="card">
-              <h3 className="card-section-title">
-                <Clock size={18} />
-                Last Cyclonic Activity
-              </h3>
-              <div className="last-cyclone-info">
-                <div className="info-row">
-                  <span className="info-label">Name</span>
-                  <span className="info-value">{data.lastDisturbance.name}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Period</span>
-                  <span className="info-value">{data.lastDisturbance.date}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Max Intensity</span>
-                  <span className="info-value">{data.lastDisturbance.maxIntensity}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Landfall</span>
-                  <span className="info-value">{data.lastDisturbance.landfall}</span>
-                </div>
+              <div className="no-cyclone-content">
+                <Shield size={64} style={{ color: '#22c55e' }} />
+                <h3>No Active Cyclonic Disturbances</h3>
+                <p>{data.message}</p>
               </div>
             </div>
 
-            {/* Monitoring Status */}
-            <div className="card">
-              <h3 className="card-section-title">
-                <Target size={18} />
-                Ocean Basin Monitoring
-              </h3>
-              <div className="monitoring-grid">
-                {data.monitoring.map((region, idx) => (
-                  <div key={idx} className="monitoring-card">
-                    <h4>{region.region}</h4>
-                    <span className={`monitoring-status ${region.status.toLowerCase()}`}>
-                      {region.status}
-                    </span>
-                    <p>Formation Probability: <strong>{region.probability}</strong></p>
+            <div className="grid-2">
+              {/* Last Cyclone Info */}
+              <div className="card">
+                <h3 className="card-section-title">
+                  <Clock size={20} style={{ color: '#8b5cf6' }} />
+                  Last Cyclonic Activity
+                </h3>
+                <div className="last-cyclone-info">
+                  <div className="info-row">
+                    <span className="info-label">Name</span>
+                    <span className="info-value">{data.lastDisturbance.name}</span>
                   </div>
-                ))}
+                  <div className="info-row">
+                    <span className="info-label">Period</span>
+                    <span className="info-value">{data.lastDisturbance.date}</span>
+                  </div>
+                  <div className="info-row">
+                    <span className="info-label">Max Intensity</span>
+                    <span className="info-value">{data.lastDisturbance.maxIntensity}</span>
+                  </div>
+                  <div className="info-row">
+                    <span className="info-label">Landfall</span>
+                    <span className="info-value">{data.lastDisturbance.landfall}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Monitoring Status */}
+              <div className="card">
+                <h3 className="card-section-title">
+                  <Target size={20} style={{ color: '#3b82f6' }} />
+                  Ocean Basin Monitoring
+                </h3>
+                <div className="monitoring-grid">
+                  {data.monitoring.map((region, idx) => (
+                    <div key={idx} className="monitoring-card">
+                      <h4>{region.region}</h4>
+                      <div className="monitoring-details">
+                        <span className={`monitoring-status ${region.status.toLowerCase()}`}>
+                          {region.status}
+                        </span>
+                        <p className="monitoring-prob">
+                          <strong>{region.probability}</strong> Formation Risk
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </>
         ) : (
           <>
             {/* Active Cyclone Alert */}
-            <div className="card active-cyclone-alert" style={{ borderColor: data.cyclone.color }}>
+            <div className="card active-cyclone-alert" style={{ borderLeftColor: data.cyclone.color }}>
               <div className="alert-header">
-                <AlertTriangle size={24} style={{ color: data.cyclone.color }} />
-                <h2>Active Cyclone: {data.cyclone.name}</h2>
-                <span className="category-badge" style={{ background: data.cyclone.color }}>
-                  {data.cyclone.category}
-                </span>
+                <AlertTriangle size={28} style={{ color: data.cyclone.color }} />
+                <div className="alert-title">
+                  <h2>Active Cyclone: {data.cyclone.name}</h2>
+                  <span className="category-badge" style={{ background: data.cyclone.color }}>
+                    {data.cyclone.category}
+                  </span>
+                </div>
               </div>
             </div>
 
-            {/* Current Status */}
+            {/* Current Status Grid */}
             <div className="grid-2">
-              <div className="card">
+              <div className="card cyclone-position-card">
                 <h3 className="card-section-title">
-                  <MapPin size={18} style={{ color: '#3b82f6' }} />
+                  <MapPin size={20} style={{ color: '#3b82f6' }} />
                   Current Position
                 </h3>
                 <div className="cyclone-position">
                   <div className="position-coords">
-                    <span>{data.cyclone.currentPosition.lat}°N</span>
-                    <span>{data.cyclone.currentPosition.lon}°E</span>
+                    <div className="coord-item">
+                      <span className="coord-label">Latitude</span>
+                      <span className="coord-value">{data.cyclone.currentPosition.lat}°N</span>
+                    </div>
+                    <div className="coord-item">
+                      <span className="coord-label">Longitude</span>
+                      <span className="coord-value">{data.cyclone.currentPosition.lon}°E</span>
+                    </div>
                   </div>
                   <p className="position-desc">{data.cyclone.currentPosition.location}</p>
                   <div className="movement-info">
-                    <Navigation size={20} style={{ transform: 'rotate(-45deg)', color: '#3b82f6' }} />
-                    <span>Moving {data.cyclone.movement.direction} at {data.cyclone.movement.speed} km/h</span>
+                    <Navigation size={24} style={{ transform: 'rotate(-45deg)', color: '#3b82f6' }} />
+                    <div className="movement-text">
+                      <span className="movement-label">Movement</span>
+                      <span className="movement-value">
+                        {data.cyclone.movement.direction} at {data.cyclone.movement.speed} km/h
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="card">
+              <div className="card cyclone-intensity-card">
                 <h3 className="card-section-title">
-                  <Gauge size={18} style={{ color: '#ef4444' }} />
+                  <Gauge size={20} style={{ color: '#ef4444' }} />
                   Current Intensity
                 </h3>
                 <div className="intensity-stats">
                   <div className="intensity-item">
-                    <Wind size={24} style={{ color: data.cyclone.color }} />
-                    <span className="intensity-value">{data.cyclone.intensity.windSpeed}</span>
-                    <span className="intensity-label">Wind (km/h)</span>
+                    <Wind size={28} style={{ color: data.cyclone.color }} />
+                    <div className="intensity-info">
+                      <span className="intensity-value">{data.cyclone.intensity.windSpeed}</span>
+                      <span className="intensity-label">Wind (km/h)</span>
+                    </div>
                   </div>
                   <div className="intensity-item">
-                    <Wind size={24} style={{ color: '#f97316' }} />
-                    <span className="intensity-value">{data.cyclone.intensity.gusts}</span>
-                    <span className="intensity-label">Gusts (km/h)</span>
+                    <Wind size={28} style={{ color: '#f97316' }} />
+                    <div className="intensity-info">
+                      <span className="intensity-value">{data.cyclone.intensity.gusts}</span>
+                      <span className="intensity-label">Gusts (km/h)</span>
+                    </div>
                   </div>
                   <div className="intensity-item">
-                    <Waves size={24} style={{ color: '#3b82f6' }} />
-                    <span className="intensity-value">{data.cyclone.intensity.pressure}</span>
-                    <span className="intensity-label">Pressure (hPa)</span>
+                    <Waves size={28} style={{ color: '#3b82f6' }} />
+                    <div className="intensity-info">
+                      <span className="intensity-value">{data.cyclone.intensity.pressure}</span>
+                      <span className="intensity-label">Pressure (hPa)</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -269,29 +298,35 @@ export default function CycloneServicePage() {
             {/* Expected Landfall */}
             <div className="card landfall-card">
               <h3 className="card-section-title">
-                <Target size={18} style={{ color: '#ef4444' }} />
+                <Target size={20} style={{ color: '#ef4444' }} />
                 Expected Landfall
               </h3>
               <div className="landfall-info">
                 <div className="landfall-detail">
-                  <MapPin size={20} />
-                  <div>
-                    <span className="label">Location</span>
-                    <span className="value">{data.cyclone.expectedLandfall.location}</span>
+                  <div className="landfall-icon">
+                    <MapPin size={24} style={{ color: '#ef4444' }} />
+                  </div>
+                  <div className="landfall-text">
+                    <span className="landfall-label">Location</span>
+                    <span className="landfall-value">{data.cyclone.expectedLandfall.location}</span>
                   </div>
                 </div>
                 <div className="landfall-detail">
-                  <Clock size={20} />
-                  <div>
-                    <span className="label">Expected Time</span>
-                    <span className="value">{data.cyclone.expectedLandfall.time}</span>
+                  <div className="landfall-icon">
+                    <Clock size={24} style={{ color: '#f97316' }} />
+                  </div>
+                  <div className="landfall-text">
+                    <span className="landfall-label">Expected Time</span>
+                    <span className="landfall-value">{data.cyclone.expectedLandfall.time}</span>
                   </div>
                 </div>
                 <div className="landfall-detail">
-                  <Wind size={20} />
-                  <div>
-                    <span className="label">Expected Intensity</span>
-                    <span className="value">{data.cyclone.expectedLandfall.intensity}</span>
+                  <div className="landfall-icon">
+                    <Wind size={24} style={{ color: '#8b5cf6' }} />
+                  </div>
+                  <div className="landfall-text">
+                    <span className="landfall-label">Expected Intensity</span>
+                    <span className="landfall-value">{data.cyclone.expectedLandfall.intensity}</span>
                   </div>
                 </div>
               </div>
@@ -300,21 +335,32 @@ export default function CycloneServicePage() {
             {/* Track Forecast */}
             <div className="card">
               <h3 className="card-section-title">
-                <Navigation size={18} style={{ color: '#8b5cf6' }} />
-                Track Forecast (72 Hours)
+                <Navigation size={20} style={{ color: '#8b5cf6' }} />
+                72-Hour Track Forecast
               </h3>
               <div className="track-timeline">
                 {data.cyclone.forecast.map((point, idx) => (
                   <div key={idx} className="track-point">
                     <div className="track-time">{point.time}</div>
-                    <div className="track-dot" style={{ 
-                      background: point.intensity === 'Peak' ? '#ef4444' : 
-                                 point.intensity === 'Intensifying' ? '#f97316' : '#3b82f6' 
-                    }} />
+                    <div className="track-connector">
+                      <div className="track-dot" style={{ 
+                        background: point.intensity === 'Peak' ? '#ef4444' : 
+                                   point.intensity === 'Intensifying' ? '#f97316' : 
+                                   point.intensity === 'Maintaining' ? '#eab308' : '#3b82f6' 
+                      }} />
+                      {idx < data.cyclone.forecast.length - 1 && <div className="track-line" />}
+                    </div>
                     <div className="track-details">
                       <span className="track-position">{point.position}</span>
-                      <span className="track-wind">{point.wind} km/h</span>
-                      <span className={`track-status ${point.intensity.toLowerCase()}`}>{point.intensity}</span>
+                      <div className="track-info">
+                        <span className="track-wind">
+                          <Wind size={14} />
+                          {point.wind} km/h
+                        </span>
+                        <span className={`track-status ${point.intensity.toLowerCase().replace(' ', '-')}`}>
+                          {point.intensity}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -324,17 +370,28 @@ export default function CycloneServicePage() {
             {/* Warnings */}
             <div className="card">
               <h3 className="card-section-title">
-                <AlertTriangle size={18} style={{ color: '#ef4444' }} />
-                Active Warnings
+                <AlertTriangle size={20} style={{ color: '#ef4444' }} />
+                Active Weather Warnings
               </h3>
               <div className="warnings-list">
                 {data.cyclone.warnings.map((warning, idx) => (
-                  <div key={idx} className={`warning-item ${warning.type.toLowerCase().replace(' ', '-')}`}>
-                    <div className="warning-header">
-                      <span className="warning-type">{warning.type}</span>
-                      <span className="warning-areas">{warning.areas.join(', ')}</span>
+                  <div key={idx} className={`warning-item warning-${warning.type.toLowerCase().replace(' ', '-')}`}>
+                    <div className="warning-badge" style={{
+                      background: warning.type === 'Red Warning' ? 'rgba(239, 68, 68, 0.2)' :
+                                 warning.type === 'Orange Warning' ? 'rgba(249, 115, 22, 0.2)' :
+                                 'rgba(234, 179, 8, 0.2)',
+                      borderColor: warning.type === 'Red Warning' ? '#ef4444' :
+                                  warning.type === 'Orange Warning' ? '#f97316' : '#eab308'
+                    }}>
+                      {warning.type}
                     </div>
-                    <p className="warning-message">{warning.message}</p>
+                    <div className="warning-content">
+                      <div className="warning-areas">
+                        <MapPin size={16} />
+                        <span>{warning.areas.join(', ')}</span>
+                      </div>
+                      <p className="warning-message">{warning.message}</p>
+                    </div>
                   </div>
                 ))}
               </div>

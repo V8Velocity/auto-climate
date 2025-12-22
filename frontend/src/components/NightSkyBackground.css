@@ -1,4 +1,8 @@
-/* Night Sky Background */
+/* ============================================
+   NIGHT SKY BACKGROUND COMPONENT
+   ============================================ */
+
+/* Main Background Container */
 .night-sky-background {
   position: fixed;
   top: 0;
@@ -18,6 +22,215 @@
     opacity: 1;
   }
 }
+
+/* ============================================
+   BUTTON STYLES
+   ============================================ */
+
+/* Primary Button (Submit, Action Buttons) */
+button,
+.btn-primary {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 15px rgba(102, 126, 234, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+button::before,
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+button:hover,
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 20px rgba(102, 126, 234, 0.6),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+button:hover::before,
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+button:active,
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 2px 10px rgba(102, 126, 234, 0.4),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+button:disabled,
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Filter Buttons */
+.filter-button,
+.btn-filter {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-button:hover,
+.btn-filter:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.filter-button.active,
+.btn-filter.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: 
+    0 4px 15px rgba(102, 126, 234, 0.5),
+    inset 0 1px 3px rgba(255, 255, 255, 0.2);
+}
+
+/* Icon Button (Refresh, Close) */
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-icon:active {
+  transform: rotate(90deg) scale(0.95);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Danger/Delete Button */
+.btn-danger {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 
+    0 4px 15px rgba(245, 87, 108, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-danger:hover {
+  box-shadow: 
+    0 6px 20px rgba(245, 87, 108, 0.6),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Success Button */
+.btn-success {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  box-shadow: 
+    0 4px 15px rgba(79, 172, 254, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-success:hover {
+  box-shadow: 
+    0 6px 20px rgba(79, 172, 254, 0.6),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.button-group.centered {
+  justify-content: center;
+}
+
+/* Button with Icon */
+.btn-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-with-icon svg,
+.btn-with-icon i {
+  width: 18px;
+  height: 18px;
+}
+
+/* ============================================
+   CELESTIAL ELEMENTS
+   ============================================ */
+
+/* ============================================
+   CELESTIAL ELEMENTS
+   ============================================ */
 
 /* Moon */
 .moon {
@@ -237,8 +450,35 @@
   }
 }
 
-/* Responsive adjustments */
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet and Mobile */
 @media (max-width: 768px) {
+  /* Button Adjustments */
+  button,
+  .btn-primary {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .filter-button,
+  .btn-filter {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .btn-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .button-group {
+    gap: 8px;
+  }
+
+  /* Celestial Elements */
   .moon {
     width: 60px;
     height: 60px;
@@ -248,5 +488,161 @@
   
   .shooting-star::before {
     width: 50px;
+  }
+
+  .crater-1 {
+    width: 12px;
+    height: 12px;
+  }
+
+  .crater-2 {
+    width: 8px;
+    height: 8px;
+  }
+
+  .crater-3 {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+/* Mobile Only */
+@media (max-width: 480px) {
+  button,
+  .btn-primary {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .filter-button,
+  .btn-filter {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .btn-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .moon {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Button States */
+.btn-loading {
+  position: relative;
+  color: transparent;
+  pointer-events: none;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Button Sizes */
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.btn-md {
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.btn-lg {
+  padding: 14px 28px;
+  font-size: 18px;
+}
+
+/* Full Width Button */
+.btn-block {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Rounded Button */
+.btn-rounded {
+  border-radius: 24px;
+}
+
+/* Glass Effect for Cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Smooth Transitions */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover Lift Effect */
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Focus Visible for Accessibility */
+button:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.btn-filter:focus-visible,
+.btn-icon:focus-visible {
+  outline: 2px solid rgba(102, 126, 234, 0.8);
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  button,
+  .btn-primary,
+  .btn-secondary,
+  .btn-filter {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  button:hover,
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .btn-filter:hover {
+    transform: none;
   }
 }

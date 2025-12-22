@@ -113,15 +113,19 @@ export default function AgrometServicePage() {
         </header>
 
         {/* State Selector */}
-        <div className="state-selector">
-          <label>Select State/Region:</label>
-          <div className="state-buttons">
+        <div className="selector-container">
+          <div className="selector-header">
+            <MapPin size={18} style={{ color: '#3b82f6' }} />
+            <span className="selector-title">Select State/Region</span>
+          </div>
+          <div className="state-selector">
             {states.map(state => (
               <button
                 key={state}
                 className={`state-btn ${selectedState === state ? 'active' : ''}`}
                 onClick={() => setSelectedState(state)}
               >
+                <MapPin size={14} />
                 {state}
               </button>
             ))}
@@ -136,19 +140,30 @@ export default function AgrometServicePage() {
         ) : (
           <>
             {/* Advisory Header */}
-            <div className="card advisory-header">
-              <div className="advisory-meta">
-                <div className="meta-item">
-                  <Calendar size={16} />
-                  <span>Issued: {data.issueDate}</span>
+            <div className="card advisory-header-card">
+              <div className="advisory-header-content">
+                <div className="advisory-title-section">
+                  <Tractor size={24} style={{ color: '#22c55e' }} />
+                  <div>
+                    <h3 className="advisory-main-title">Agricultural Advisory</h3>
+                    <p className="advisory-location">{data.state}</p>
+                  </div>
                 </div>
-                <div className="meta-item">
-                  <Clock size={16} />
-                  <span>Valid until: {data.validUntil}</span>
-                </div>
-                <div className="meta-item">
-                  <MapPin size={16} />
-                  <span>{data.state}</span>
+                <div className="advisory-meta-grid">
+                  <div className="meta-item">
+                    <Calendar size={16} style={{ color: '#3b82f6' }} />
+                    <div className="meta-info">
+                      <span className="meta-label">Issued</span>
+                      <span className="meta-value">{data.issueDate}</span>
+                    </div>
+                  </div>
+                  <div className="meta-item">
+                    <Clock size={16} style={{ color: '#f97316' }} />
+                    <div className="meta-info">
+                      <span className="meta-label">Valid Until</span>
+                      <span className="meta-value">{data.validUntil}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -189,17 +204,23 @@ export default function AgrometServicePage() {
             </div>
 
             {/* Crop Type Selector */}
-            <div className="crop-type-selector">
-              {cropTypes.map(type => (
-                <button
-                  key={type.id}
-                  className={`crop-type-btn ${selectedCropType === type.id ? 'active' : ''}`}
-                  onClick={() => setSelectedCropType(type.id)}
-                >
-                  <Sprout size={16} />
-                  {type.name}
-                </button>
-              ))}
+            <div className="selector-container crop-selector-container">
+              <div className="selector-header">
+                <Sprout size={18} style={{ color: '#22c55e' }} />
+                <span className="selector-title">Crop Season</span>
+              </div>
+              <div className="crop-type-selector">
+                {cropTypes.map(type => (
+                  <button
+                    key={type.id}
+                    className={`crop-type-btn ${selectedCropType === type.id ? 'active' : ''}`}
+                    onClick={() => setSelectedCropType(type.id)}
+                  >
+                    <Leaf size={14} />
+                    {type.name}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Crop Advisories */}
@@ -211,22 +232,46 @@ export default function AgrometServicePage() {
               <div className="crop-advisories-grid">
                 {data.cropAdvisories.map((crop, idx) => (
                   <div key={idx} className="crop-advisory-card">
-                    <div className="crop-header">
-                      <h4>{crop.crop}</h4>
-                      <span className={`crop-stage ${crop.stage.toLowerCase()}`}>{crop.stage}</span>
-                    </div>
-                    <p className="crop-advisory-text">{crop.advisory}</p>
-                    <div className="crop-activities">
-                      <span className="activities-label">Recommended Activities:</span>
-                      <div className="activities-tags">
-                        {crop.activities.map((activity, i) => (
-                          <span key={i} className="activity-tag">{activity}</span>
-                        ))}
+                    <div className="crop-card-header">
+                      <div className="crop-title-section">
+                        <Sprout size={20} style={{ color: '#22c55e' }} />
+                        <h4 className="crop-name">{crop.crop}</h4>
                       </div>
+                      <span className={`crop-stage-badge stage-${crop.stage.toLowerCase()}`}>
+                        {crop.stage}
+                      </span>
                     </div>
-                    <div className={`crop-risk risk-${crop.riskLevel.toLowerCase()}`}>
-                      <AlertTriangle size={14} />
-                      Risk Level: {crop.riskLevel}
+                    
+                    <div className="crop-advisory-content">
+                      <div className="advisory-section">
+                        <div className="advisory-icon">
+                          <Leaf size={16} style={{ color: '#3b82f6' }} />
+                        </div>
+                        <p className="crop-advisory-text">{crop.advisory}</p>
+                      </div>
+                      
+                      <div className="activities-section">
+                        <div className="section-label">
+                          <Calendar size={14} />
+                          <span>Recommended Activities:</span>
+                        </div>
+                        <div className="activities-list">
+                          {crop.activities.map((activity, i) => (
+                            <div key={i} className="activity-item">
+                              <div className="activity-bullet" />
+                              <span>{activity}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div className={`risk-indicator risk-${crop.riskLevel.toLowerCase()}`}>
+                        <AlertTriangle size={16} />
+                        <div className="risk-content">
+                          <span className="risk-label">Risk Level</span>
+                          <span className="risk-value">{crop.riskLevel}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}

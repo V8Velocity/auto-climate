@@ -13,6 +13,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import './CycloneTrackPage.css';
 
 // Simulated cyclone data
 const generateCycloneData = () => {

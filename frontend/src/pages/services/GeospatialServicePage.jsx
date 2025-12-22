@@ -346,19 +346,58 @@ export default function GeospatialServicePage() {
                 Quick Actions
               </h3>
               <div className="actions-grid">
-                <button className="action-btn">
+                <button className="action-btn" onClick={() => {
+                  const geoJSON = {
+                    type: "FeatureCollection",
+                    features: data.gridData.map(point => ({
+                      type: "Feature",
+                      geometry: { type: "Point", coordinates: [point.lon, point.lat] },
+                      properties: { station: point.station, value: point.value, layer: selectedLayer }
+                    }))
+                  };
+                  const blob = new Blob([JSON.stringify(geoJSON, null, 2)], { type: 'application/json' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `${selectedLayer}_${selectedRegion}_${new Date().getTime()}.geojson`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}>
                   <Download size={18} />
                   Download GeoJSON
                 </button>
-                <button className="action-btn">
+                <button className="action-btn" onClick={() => {
+                  const csv = [
+                    ['Station', 'Latitude', 'Longitude', `${layerInfo.name} (${getUnit(selectedLayer)})`],
+                    ...data.gridData.map(point => [point.station, point.lat, point.lon, point.value])
+                  ].map(row => row.join(',')).join('\n');
+                  const blob = new Blob([csv], { type: 'text/csv' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `${selectedLayer}_${selectedRegion}_${new Date().getTime()}.csv`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}>
                   <Download size={18} />
                   Download CSV
                 </button>
-                <button className="action-btn">
+                <button className="action-btn" onClick={() => {
+                  const mapElement = document.querySelector('.geospatial-map');
+                  if (mapElement) {
+                    if (document.fullscreenElement) {
+                      document.exitFullscreen();
+                    } else {
+                      mapElement.requestFullscreen();
+                    }
+                  }
+                }}>
                   <Eye size={18} />
                   View Full Screen
                 </button>
-                <button className="action-btn">
+                <button className="action-btn" onClick={() => {
+                  alert('Layer comparison feature coming soon! This will allow you to overlay multiple weather parameters for comprehensive analysis.');
+                }}>
                   <Layers size={18} />
                   Compare Layers
                 </button>

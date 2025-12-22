@@ -15,79 +15,92 @@ import {
   Star
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import './TourismForecastPage.css';
 
 const touristDestinations = [
   { 
     name: 'Goa', 
     type: 'Beach', 
     bestSeason: 'Nov - Feb',
-    description: 'Famous beaches and vibrant nightlife'
+    description: 'Famous beaches and vibrant nightlife',
+    image: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800&q=80'
   },
   { 
     name: 'Manali', 
     type: 'Hill Station', 
     bestSeason: 'Mar - Jun, Oct - Feb',
-    description: 'Snow-capped mountains and adventure sports'
+    description: 'Snow-capped mountains and adventure sports',
+    image: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80'
   },
   { 
     name: 'Kerala Backwaters', 
     type: 'Nature', 
     bestSeason: 'Sep - Mar',
-    description: 'Serene backwaters and houseboat cruises'
+    description: 'Serene backwaters and houseboat cruises',
+    image: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=800&q=80'
   },
   { 
     name: 'Rajasthan (Jaipur)', 
     type: 'Heritage', 
     bestSeason: 'Oct - Mar',
-    description: 'Royal palaces and rich cultural heritage'
+    description: 'Royal palaces and rich cultural heritage',
+    image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?w=800&q=80'
   },
   { 
     name: 'Shimla', 
     type: 'Hill Station', 
     bestSeason: 'Mar - Jun, Dec - Feb',
-    description: 'Colonial charm and mountain views'
+    description: 'Colonial charm and mountain views',
+    image: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80'
   },
   { 
     name: 'Andaman Islands', 
     type: 'Beach', 
     bestSeason: 'Oct - May',
-    description: 'Pristine beaches and water sports'
+    description: 'Pristine beaches and water sports',
+    image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80'
   },
   { 
     name: 'Darjeeling', 
     type: 'Hill Station', 
     bestSeason: 'Mar - May, Oct - Dec',
-    description: 'Tea gardens and Himalayan views'
+    description: 'Tea gardens and Himalayan views',
+    image: 'https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=800&q=80'
   },
   { 
     name: 'Varanasi', 
     type: 'Spiritual', 
     bestSeason: 'Oct - Mar',
-    description: 'Ancient spiritual city on the Ganges'
+    description: 'Ancient spiritual city on the Ganges',
+    image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?w=800&q=80'
   },
   { 
     name: 'Agra', 
     type: 'Heritage', 
     bestSeason: 'Oct - Mar',
-    description: 'Home of the iconic Taj Mahal'
+    description: 'Home of the iconic Taj Mahal',
+    image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800&q=80'
   },
   { 
     name: 'Leh-Ladakh', 
     type: 'Adventure', 
     bestSeason: 'May - Sep',
-    description: 'High-altitude desert and Buddhist monasteries'
+    description: 'High-altitude desert and Buddhist monasteries',
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80'
   },
   { 
     name: 'Ooty', 
     type: 'Hill Station', 
     bestSeason: 'Mar - Jun, Sep - Nov',
-    description: 'Queen of hill stations with tea estates'
+    description: 'Queen of hill stations with tea estates',
+    image: 'https://images.unsplash.com/photo-1605649487212-47a7d24f08eb?w=800&q=80'
   },
   { 
     name: 'Udaipur', 
     type: 'Heritage', 
     bestSeason: 'Sep - Mar',
-    description: 'City of lakes and royal palaces'
+    description: 'City of lakes and royal palaces',
+    image: 'https://images.unsplash.com/photo-1585217935108-c88a7e6cecd8?w=800&q=80'
   },
 ];
 
@@ -214,44 +227,57 @@ export default function TourismForecastPage({ weatherData }) {
           <div className="tourism-grid">
             {filteredData.map(dest => (
               <div key={dest.name} className="card tourism-card">
-                <div className="tourism-header">
-                  <div className="dest-info">
-                    <h3 className="dest-name">{dest.name}</h3>
-                    <span className="dest-type">{dest.type}</span>
-                  </div>
-                  <div 
-                    className="visit-rating"
-                    style={{ color: getRatingColor(dest.visitRating) }}
-                  >
-                    <div className="rating-stars">
-                      {getRatingStars(dest.visitRating)}
-                    </div>
-                    <span>{dest.visitRating}</span>
-                  </div>
+                {/* Destination Image */}
+                <div className="dest-image-container">
+                  <img 
+                    src={dest.image} 
+                    alt={dest.name}
+                    className="dest-image"
+                    loading="lazy"
+                  />
+                  <span className="dest-type-badge">{dest.type}</span>
                 </div>
 
-                <p className="dest-description">{dest.description}</p>
-
-                <div className="dest-meta">
-                  <div className="meta-item">
-                    <Calendar size={14} />
-                    <span>Best: {dest.bestSeason}</span>
-                  </div>
-                  <div className="meta-item">
-                    <Thermometer size={14} />
-                    <span>Avg: {dest.avgTemp}°C</span>
-                  </div>
-                </div>
-
-                <div className="tourism-forecast">
-                  {dest.days.map(day => (
-                    <div key={day.day} className="tourism-day">
-                      <span className="day-label">{day.date.split(' ')[0]}</span>
-                      {getConditionIcon(day.condition)}
-                      <span className="day-temp">{day.maxTemp}°</span>
-                      <span className="day-rain">{day.rainfall}mm</span>
+                {/* Card Content */}
+                <div className="tourism-card-content">
+                  <div className="tourism-header">
+                    <div className="dest-info">
+                      <h3 className="dest-name">{dest.name}</h3>
                     </div>
-                  ))}
+                    <div 
+                      className="visit-rating"
+                      style={{ color: getRatingColor(dest.visitRating) }}
+                    >
+                      <div className="rating-stars">
+                        {getRatingStars(dest.visitRating)}
+                      </div>
+                      <span>{dest.visitRating}</span>
+                    </div>
+                  </div>
+
+                  <p className="dest-description">{dest.description}</p>
+
+                  <div className="dest-meta">
+                    <div className="meta-item">
+                      <Calendar size={14} />
+                      <span>Best: {dest.bestSeason}</span>
+                    </div>
+                    <div className="meta-item">
+                      <Thermometer size={14} />
+                      <span>Avg: {dest.avgTemp}°C</span>
+                    </div>
+                  </div>
+
+                  <div className="tourism-forecast">
+                    {dest.days.map(day => (
+                      <div key={day.day} className="tourism-day">
+                        <span className="day-label">{day.date.split(' ')[0]}</span>
+                        {getConditionIcon(day.condition)}
+                        <span className="day-temp">{day.maxTemp}°</span>
+                        <span className="day-rain">{day.rainfall}mm</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
