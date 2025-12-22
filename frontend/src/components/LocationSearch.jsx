@@ -177,7 +177,7 @@ export default function LocationSearch({ socket, currentLocation, onLocationChan
                     onClick={() => handleCitySelect(city)}
                     disabled={isLoading}
                   >
-                    <span className="location-item-flag">{getCountryFlag(city.country)}</span>
+                    {/* <span className="location-item-flag">{getCountryFlag(city.country)}</span> */}
                     <span className="location-item-city">{city.city}</span>
                     <span className="location-item-country">{city.country}</span>
                     {city.state && <span className="location-item-state">{city.state}</span>}

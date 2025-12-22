@@ -6,7 +6,7 @@
 const axios = require('axios'); 
 
 // Get API key dynamically to support hot-reload
-const getApiKey = () => process.env.OPENWEATHER_API_KEY;
+const getApiKey = () => process.env.OPENWEATHER_API_KEY || '9655a6735e2260dc45cb2a24365e37c8';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 const GEO_URL = 'https://api.openweathermap.org/geo/1.0';
 
@@ -40,7 +40,7 @@ const cityDatabase = {
 };
 
 // Current location state
-let currentLocation = cityDatabase["mumbai"];
+let currentLocation = cityDatabase["delhi"];
 
 // Cache for API responses (to avoid rate limiting)
 let weatherCache = {
@@ -671,10 +671,28 @@ async function getWeatherByCoords(lat, lon) {
   }
 }
 
+// Function to update current location from external source (e.g., socket.js)
+function updateCurrentLocation(location) {
+  if (location && location.lat && location.lon) {
+    currentLocation = {
+      city: location.city || 'Unknown',
+      country: location.country || 'XX',
+      lat: location.lat,
+      lon: location.lon,
+      timezone: location.timezone || 'UTC'
+    };
+    // Clear cache when location changes
+    weatherCache.data = null;
+    weatherCache.timestamp = 0;
+    console.log(`[WeatherService] Location updated to: ${currentLocation.city} (${currentLocation.lat}, ${currentLocation.lon})`);
+  }
+}
+
 module.exports = { 
   getFullWeatherData, 
   setLocation, 
   searchCities, 
   getAvailableCities,
-  getWeatherByCoords
+  getWeatherByCoords,
+  updateCurrentLocation
 };

@@ -9,8 +9,11 @@ import {
   Activity,
   Layers,
   TrendingUp,
-  Building2
+  Building2,
+  User,
+  LogOut
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const navItems = [
   { path: '/', icon: LayoutDashboard, label: 'Dashboard' },
@@ -24,7 +27,9 @@ const navItems = [
   { path: '/maps', icon: Map, label: 'Weather Maps' },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ onLoginClick, onRegisterClick }) {
+  const { user, logout, isAuthenticated } = useAuth();
+
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
@@ -50,7 +55,27 @@ export default function Sidebar() {
       </nav>
       
       <div className="sidebar-footer">
-        <p>Real-time Weather</p>
+        {isAuthenticated ? (
+          <div className="sidebar-user">
+            <div className="user-info">
+              <User size={18} />
+              <span>{user?.name}</span>
+            </div>
+            <button className="logout-btn" onClick={logout} title="Logout">
+              <LogOut size={18} />
+            </button>
+          </div>
+        ) : (
+          <div className="sidebar-auth">
+            <button className="auth-btn login" onClick={onLoginClick}>
+              <User size={18} />
+              Login
+            </button>
+            <button className="auth-btn register" onClick={onRegisterClick}>
+              Sign Up
+            </button>
+          </div>
+        )}
         <p className="sidebar-version">v2.0</p>
       </div>
     </aside>

@@ -8,6 +8,8 @@ import WindCompass from './WindCompass';
 import PressureCard from './PressureCard';
 import ForecastCard from './ForecastCard';
 import LocationSearch from './LocationSearch';
+import SavedLocations from './SavedLocations/SavedLocations';
+import WeatherAlerts from './WeatherAlerts/WeatherAlerts';
 
 export default function Dashboard({ weatherData, sensorData, history, connected, socket }) {
   const [lastUpdate, setLastUpdate] = useState(null);
@@ -112,6 +114,34 @@ export default function Dashboard({ weatherData, sensorData, history, connected,
               <Chart type="humidity" data={history.humidity} />
               <Chart type="co2" data={history.co2} />
               <Chart type="pm25" data={history.pm25} />
+            </div>
+          </section>
+
+          <section className="section">
+            <div className="section-header">
+              <span className="section-bar violet" />
+              <h2 className="section-title">My Locations & Alerts</h2>
+            </div>
+            <div className="grid-2">
+              <SavedLocations onLocationSelect={(location) => {
+                console.log('[Dashboard] onLocationSelect called with:', location);
+                console.log('[Dashboard] Socket exists?', !!socket);
+                if (socket) {
+                  console.log('[Dashboard] Emitting changeLocation event:', {
+                    city: location.city,
+                    lat: location.coordinates.lat,
+                    lon: location.coordinates.lon
+                  });
+                  socket.emit('changeLocation', {
+                    city: location.city,
+                    lat: location.coordinates.lat,
+                    lon: location.coordinates.lon
+                  });
+                } else {
+                  console.error('[Dashboard] Socket is null/undefined, cannot change location');
+                }
+              }} />
+              <WeatherAlerts />
             </div>
           </section>
         </main>

@@ -1,0 +1,67 @@
+.envizio-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #2a2a2a 0%, #0a0a0a 100%);
+  overflow: hidden;
+}
+
+.logo-container {
+  position: relative;
+  z-index: 10000;
+}
+
+.envizio-text {
+  font-size: 6rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  margin: 0;
+  text-shadow: 0 0 80px rgba(102, 126, 234, 0.5);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.4));
+  }
+  to {
+    filter: drop-shadow(0 0 40px rgba(118, 75, 162, 0.6));
+  }
+}
+
+.curtain {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+  z-index: 10001;
+}
+
+.curtain-left {
+  left: 0;
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.curtain-right {
+  right: 0;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 768px) {
+  .envizio-text {
+    font-size: 3.5rem;
+    letter-spacing: 4px;
+  }
+}

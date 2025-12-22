@@ -1,8 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
+import LandingPageNew from './pages/LandingPageNew';
 import Dashboard from './components/Dashboard';
 import Sidebar from './components/Sidebar';
+import LoginModal from './components/Auth/LoginModal';
+import RegisterModal from './components/Auth/RegisterModal';
+import { useAuth } from './context/AuthContext';
+import { User, LogOut } from 'lucide-react';
 import UVIndexPage from './pages/UVIndexPage';
 import HourlyForecastPage from './pages/HourlyForecastPage';
 import WeatherAlertsPage from './pages/WeatherAlertsPage';
@@ -55,6 +60,9 @@ function App() {
   });
   const [connected, setConnected] = useState(false);
   const socketRef = useRef(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const { user, logout, isAuthenticated } = useAuth();
 
   useEffect(() => {
     const socket = io(SOCKET_URL);
@@ -89,22 +97,29 @@ function App() {
 
   return (
     <Router>
-      <div className="app-layout">
-        <Sidebar />
-        <main className="app-main">
-          <Routes>
-            <Route 
-              path="/" 
-              element={
-                <Dashboard 
-                  weatherData={weatherData}
-                  sensorData={sensorData}
-                  history={history}
-                  connected={connected}
-                  socket={socketRef.current}
-                />
-              } 
+      <Routes>
+        <Route path="/" element={<LandingPageNew />} />
+        
+        <Route path="/*" element={
+          <div className="app-layout">
+            <Sidebar 
+              onLoginClick={() => setShowLoginModal(true)}
+              onRegisterClick={() => setShowRegisterModal(true)}
             />
+            <main className="app-main">
+              <Routes>
+                <Route 
+                  path="/dashboard" 
+                  element={
+                    <Dashboard 
+                      weatherData={weatherData}
+                      sensorData={sensorData}
+                      history={history}
+                      connected={connected}
+                      socket={socketRef.current}
+                    />
+                  } 
+                />
             <Route 
               path="/uv-index" 
               element={<UVIndexPage weatherData={weatherData} />} 
@@ -219,13 +234,33 @@ function App() {
               path="/services/hazard" 
               element={<HazardAtlasPage weatherData={weatherData} />} 
             />
-            <Route 
-              path="/services/geospatial" 
-              element={<GeospatialServicePage weatherData={weatherData} />} 
-            />
-          </Routes>
-        </main>
-      </div>
+                <Route 
+                  path="/services/geospatial" 
+                  element={<GeospatialServicePage weatherData={weatherData} />} 
+                />
+              </Routes>
+            </main>
+          </div>
+        } />
+      </Routes>
+
+      <LoginModal 
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onSwitchToRegister={() => {
+          setShowLoginModal(false);
+          setShowRegisterModal(true);
+        }}
+      />
+
+      <RegisterModal 
+        isOpen={showRegisterModal}
+        onClose={() => setShowRegisterModal(false)}
+        onSwitchToLogin={() => {
+          setShowRegisterModal(false);
+          setShowLoginModal(true);
+        }}
+      />
     </Router>
   );
 }

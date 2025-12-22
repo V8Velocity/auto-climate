@@ -8,6 +8,9 @@ const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 const alertRoutes = require("./routes/alerts");
 const predictionRoutes = require("./routes/predictions");
+const locationsRoutes = require("./routes/locations");
+const weatherHistoryRoutes = require("./routes/weatherHistory");
+const weatherAlertsRoutes = require("./routes/weatherAlerts");
 const { initSocket } = require("./socket");
 const { authenticateSocket } = require("./middleware/auth");
 
@@ -36,6 +39,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/alerts", alertRoutes);
 app.use("/api/predictions", predictionRoutes);
+app.use("/api/locations", locationsRoutes);
+app.use("/api/weather-history", weatherHistoryRoutes);
+app.use("/api/weather-alerts", weatherAlertsRoutes);
 
 // Health check
 app.get("/health", (req, res) => {

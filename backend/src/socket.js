@@ -1,4 +1,4 @@
-const { getFullWeatherData, setLocation, searchCities, getAvailableCities, getWeatherByCoords } = require("./services/weatherService");
+const { getFullWeatherData, setLocation, searchCities, getAvailableCities, getWeatherByCoords, updateCurrentLocation } = require("./services/weatherService");
 const { registerSocket, unregisterSocket, processReadings, getActiveAlerts, acknowledgeAlert } = require("./services/alertService");
 const { predictFromRecentData } = require("./services/predictionService");
 
@@ -162,26 +162,50 @@ function initSocket(io) {
     }, 5000);
 
     // Handle location change request (async)
-    socket.on("changeLocation", async (cityName) => {
-      console.log(`Location change requested: ${cityName}`);
+    socket.on("changeLocation", async (data) => {
+      console.log(`[Socket] Location change requested:`, JSON.stringify(data, null, 2));
+      
       try {
-        const result = await setLocation(cityName);
-        if (result.success) {
-          // Update current location
+        let result;
+        
+        // Support both string (city name) and object {city, lat, lon} formats
+        if (typeof data === 'string') {
+          console.log(`[Socket] Changing location by city name: ${data}`);
+          result = await setLocation(data);
+        } else if (data && data.lat && data.lon) {
+          console.log(`[Socket] Changing location by coordinates: ${data.lat}, ${data.lon}`);
+          // Use coordinates directly
           currentLocation = {
-            city: result.location.city || cityName,
-            lat: result.location.lat,
-            lon: result.location.lon
+            city: data.city || 'Unknown',
+            lat: data.lat,
+            lon: data.lon
           };
           
+          // Sync location with weatherService so interval uses correct location
+          updateCurrentLocation(currentLocation);
+          
+          // Fetch weather data for these coordinates
+          const weatherData = await getWeatherByCoords(data.lat, data.lon);
+          socket.emit("weatherData", weatherData);
+          socket.emit("locationChanged", { success: true, location: currentLocation });
+          console.log(`[Socket] Location changed successfully to:`, currentLocation);
+          return;
+        } else {
+          throw new Error('Invalid location data format');
+        }
+        
+        if (result.success) {
           // Fetch and send updated weather data immediately
           const weatherData = await getFullWeatherData();
           socket.emit("weatherData", weatherData);
           socket.emit("locationChanged", { success: true, location: result.location });
+          console.log(`[Socket] Location changed successfully to:`, currentLocation);
         } else {
+          console.error(`[Socket] Location change failed:`, result.message);
           socket.emit("locationChanged", { success: false, message: result.message });
         }
       } catch (error) {
+        console.error(`[Socket] Location change error:`, error.message);
         socket.emit("locationChanged", { success: false, message: error.message });
       }
     });

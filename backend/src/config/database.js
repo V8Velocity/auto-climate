@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/auto-climate';
+    const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://shashanksaket9_db_user:tx092Dt4Y1WV9nFL@envizio.o0bqflg.mongodb.net/?appName=Envizio';
     
     await mongoose.connect(mongoURI);
     

@@ -1,12 +1,11 @@
 {
-  "name": "frontend",
+  "name": "auto-climate-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -17,6 +16,9 @@
     "@react-spring/web": "^10.0.3",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
+    "@react-three/postprocessing": "^3.0.4",
+    "axios": "^1.13.2",
+    "framer-motion": "^12.23.26",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.460.0",
     "react": "^19.2.0",
