@@ -21,8 +21,31 @@ body {
   padding: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  background: transparent;
   color: rgba(255, 255, 255, 0.9);
+}
+
+/* Light mode text */
+.theme-light body,
+:root:not(.dark) body {
+  color: rgba(15, 23, 42, 0.9);
+}
+
+/* Dark mode text (explicit) */
+.theme-dark body,
+.dark body {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Icon alignment improvements */
+svg {
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+button svg,
+a svg {
+  pointer-events: none;
 }
 
 /* Default text colors for headings and common elements */
@@ -30,12 +53,30 @@ h1, h2, h3, h4, h5, h6 {
   color: rgba(255, 255, 255, 0.95);
 }
 
+/* Light mode text colors */
+.theme-light h1, .theme-light h2, .theme-light h3, 
+.theme-light h4, .theme-light h5, .theme-light h6,
+:root:not(.dark) h1, :root:not(.dark) h2, :root:not(.dark) h3, 
+:root:not(.dark) h4, :root:not(.dark) h5, :root:not(.dark) h6 {
+  color: rgba(15, 23, 42, 0.95);
+}
+
 p {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.theme-light p,
+:root:not(.dark) p {
+  color: rgba(15, 23, 42, 0.7);
+}
+
 a {
   color: #818cf8;
+}
+
+.theme-light a,
+:root:not(.dark) a {
+  color: #4f46e5;
 }
 
 /* Ensure all text in cards is visible */
@@ -66,4 +107,20 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(99, 102, 241, 0.7);
+}
+
+/* Light mode scrollbar */
+.theme-light ::-webkit-scrollbar-track,
+:root:not(.dark) ::-webkit-scrollbar-track {
+  background: rgba(226, 232, 240, 0.5);
+}
+
+.theme-light ::-webkit-scrollbar-thumb,
+:root:not(.dark) ::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.4);
+}
+
+.theme-light ::-webkit-scrollbar-thumb:hover,
+:root:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.6);
 }

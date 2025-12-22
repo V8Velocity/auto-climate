@@ -1,0 +1,252 @@
+/* Night Sky Background */
+.night-sky-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #000428 0%, #004e92 100%);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  animation: fadeInSky 1s ease-out forwards;
+}
+
+@keyframes fadeInSky {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Moon */
+.moon {
+  position: absolute;
+  top: 10%;
+  right: 15%;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff, #e0e0e0);
+  box-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.8),
+    0 0 40px rgba(255, 255, 255, 0.6),
+    0 0 60px rgba(255, 255, 255, 0.4),
+    inset -10px -10px 20px rgba(0, 0, 0, 0.2);
+  animation: moonGlow 4s ease-in-out infinite alternate;
+}
+
+/* Moon craters */
+.crater {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.crater-1 {
+  width: 15px;
+  height: 15px;
+  top: 25%;
+  left: 35%;
+}
+
+.crater-2 {
+  width: 10px;
+  height: 10px;
+  top: 50%;
+  left: 55%;
+}
+
+.crater-3 {
+  width: 8px;
+  height: 8px;
+  top: 65%;
+  left: 25%;
+}
+
+@keyframes moonGlow {
+  0% {
+    box-shadow: 
+      0 0 20px rgba(255, 255, 255, 0.8),
+      0 0 40px rgba(255, 255, 255, 0.6),
+      0 0 60px rgba(255, 255, 255, 0.4),
+      inset -10px -10px 20px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 
+      0 0 30px rgba(255, 255, 255, 1),
+      0 0 50px rgba(255, 255, 255, 0.8),
+      0 0 70px rgba(255, 255, 255, 0.6),
+      inset -10px -10px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Stars Container */
+.stars-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Individual Star */
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 3s ease-in-out infinite;
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+}
+
+.star-bright {
+  box-shadow: 
+    0 0 4px rgba(255, 255, 255, 1),
+    0 0 8px rgba(255, 255, 255, 0.8),
+    0 0 12px rgba(255, 255, 255, 0.6);
+  animation: twinkleBright 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes twinkleBright {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+/* Shooting Stars */
+.shooting-star {
+  position: absolute;
+  top: 20%;
+  left: 80%;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.8);
+  animation: shootingStar 3s linear infinite;
+  opacity: 0;
+}
+
+@keyframes shootingStar {
+  0% {
+    opacity: 0;
+    transform: translateX(0) translateY(0) rotate(-45deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-300px) translateY(300px) rotate(-45deg);
+  }
+}
+
+.shooting-star::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  transform-origin: 0 0;
+}
+
+/* Add some nebula clouds */
+.night-sky-background::before {
+  content: '';
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(138, 43, 226, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: nebulaDrift 20s ease-in-out infinite alternate;
+}
+
+.night-sky-background::after {
+  content: '';
+  position: absolute;
+  bottom: 20%;
+  right: 20%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(30, 144, 255, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: nebulaDrift 25s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes nebulaDrift {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, -30px);
+  }
+}
+
+/* Milky Way effect */
+.milky-way {
+  position: absolute;
+  top: 0;
+  left: 20%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.02) 20%,
+    rgba(200, 200, 255, 0.05) 40%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(200, 200, 255, 0.05) 60%,
+    rgba(255, 255, 255, 0.02) 80%,
+    transparent 100%
+  );
+  transform: rotate(-15deg);
+  pointer-events: none;
+  animation: milkyWayShimmer 10s ease-in-out infinite alternate;
+}
+
+@keyframes milkyWayShimmer {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .moon {
+    width: 60px;
+    height: 60px;
+    top: 8%;
+    right: 10%;
+  }
+  
+  .shooting-star::before {
+    width: 50px;
+  }
+}

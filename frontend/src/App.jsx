@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { io } from 'socket.io-client';
 import LandingPageNew from './pages/LandingPageNew';
 import Dashboard from './components/Dashboard';
 import Sidebar from './components/Sidebar';
+import NightSkyBackground from './components/NightSkyBackground';
+import DaySkyBackground from './components/DaySkyBackground';
 import LoginModal from './components/Auth/LoginModal';
 import RegisterModal from './components/Auth/RegisterModal';
 import { useAuth } from './context/AuthContext';
@@ -64,6 +66,44 @@ function App() {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const { user, logout, isAuthenticated } = useAuth();
 
+  // Theme state management
+  const [theme, setTheme] = useState(() => {
+    // Load saved theme from localStorage or default to 'auto'
+    return localStorage.getItem('theme') || 'auto';
+  });
+
+  const isDarkModeForTheme = useCallback((themeValue) => {
+    if (themeValue === 'dark') return true;
+    if (themeValue === 'light') return false;
+    // Auto mode - dark at night (6pm to 6am)
+    const hour = new Date().getHours();
+    return hour < 6 || hour >= 18;
+  }, []);
+
+  // Handle theme change
+  const handleThemeChange = useCallback((newTheme) => {
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+
+    // Update document class for CSS styling
+    document.documentElement.classList.remove('theme-light', 'theme-dark', 'theme-auto');
+    document.documentElement.classList.add(`theme-${newTheme}`);
+
+    // Apply dark mode class for Tailwind
+    document.documentElement.classList.toggle('dark', isDarkModeForTheme(newTheme));
+  }, [isDarkModeForTheme]);
+
+  // Apply theme class on mount and theme change
+  useEffect(() => {
+    document.documentElement.classList.remove('theme-light', 'theme-dark', 'theme-auto');
+    document.documentElement.classList.add(`theme-${theme}`);
+
+    // Ensure dark class is in sync with theme
+    document.documentElement.classList.toggle('dark', isDarkModeForTheme(theme));
+  }, [theme, isDarkModeForTheme]);
+
+  const isDark = isDarkModeForTheme(theme);
+
   useEffect(() => {
     const socket = io(SOCKET_URL);
     socketRef.current = socket;
@@ -97,14 +137,21 @@ function App() {
 
   return (
     <Router>
+      {/* Animated Sky Backgrounds - switch based on theme */}
+      <NightSkyBackground isDark={isDark} />
+      <DaySkyBackground isDark={isDark} />
+      
       <Routes>
         <Route path="/" element={<LandingPageNew />} />
         
         <Route path="/*" element={
-          <div className="app-layout">
+          <div className={`app-layout ${isDark ? 'dark' : ''}`}>
             <Sidebar 
               onLoginClick={() => setShowLoginModal(true)}
               onRegisterClick={() => setShowRegisterModal(true)}
+              theme={theme}
+              onThemeChange={handleThemeChange}
+              isDark={isDark}
             />
             <main className="app-main">
               <Routes>

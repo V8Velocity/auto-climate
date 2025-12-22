@@ -93,7 +93,7 @@ const generateHazardData = (selectedState) => {
   };
 };
 
-export default function HazardAtlasPage() {
+export default function HazardAtlasPage({ weatherData }) {
   const [selectedState, setSelectedState] = useState('Maharashtra');
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);

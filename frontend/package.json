@@ -1,12 +1,14 @@
 {
-  "name": "auto-climate-frontend",
+  "name": "frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "fullstack": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "node backend/src/server.js",
+    "frontend": "cd frontend && npm run dev"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -18,14 +20,22 @@
     "@react-three/fiber": "^9.4.2",
     "@react-three/postprocessing": "^3.0.4",
     "axios": "^1.13.2",
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^9.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
     "framer-motion": "^12.23.26",
+    "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.460.0",
+    "mongoose": "^8.8.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.10.1",
     "recharts": "^2.13.3",
+    "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
     "three": "^0.182.0",
     "three-stdlib": "^2.36.1"

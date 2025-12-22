@@ -86,7 +86,7 @@ const generateClimateData = () => {
   };
 };
 
-export default function ClimateServicePage() {
+export default function ClimateServicePage({ weatherData }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedRange, setSelectedRange] = useState('annual');

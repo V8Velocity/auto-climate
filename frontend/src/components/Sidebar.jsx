@@ -11,12 +11,13 @@ import {
   TrendingUp,
   Building2,
   User,
-  LogOut
+  LogOut,
+  Monitor
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const navItems = [
-  { path: '/', icon: LayoutDashboard, label: 'Dashboard' },
+  { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { path: '/services', icon: Layers, label: 'Our Services' },
   { path: '/forecasts', icon: TrendingUp, label: 'Forecasts' },
   { path: '/major-cities', icon: Building2, label: 'Major Cities' },
@@ -27,16 +28,39 @@ const navItems = [
   { path: '/maps', icon: Map, label: 'Weather Maps' },
 ];
 
-export default function Sidebar({ onLoginClick, onRegisterClick }) {
+export default function Sidebar({ onLoginClick, onRegisterClick, theme, onThemeChange, isDark }) {
   const { user, logout, isAuthenticated } = useAuth();
 
+  const themeOptions = [
+    { value: 'auto', icon: Monitor, label: 'Auto' },
+    { value: 'light', icon: Sun, label: 'Light' },
+    { value: 'dark', icon: Moon, label: 'Dark' },
+  ];
+
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isDark ? 'dark' : ''}`}>
       <div className="sidebar-header">
         <div className="sidebar-logo">
           <Activity className="sidebar-logo-icon" />
         </div>
         <span className="sidebar-title">Envizio</span>
+      </div>
+
+      {/* Theme Toggle */}
+      <div className="theme-toggle-container">
+        <span className="theme-label">Theme</span>
+        <div className="theme-toggle-buttons">
+          {themeOptions.map((option) => (
+            <button
+              key={option.value}
+              className={`theme-btn ${theme === option.value ? 'active' : ''}`}
+              onClick={() => onThemeChange(option.value)}
+              title={option.label}
+            >
+              <option.icon size={16} />
+            </button>
+          ))}
+        </div>
       </div>
       
       <nav className="sidebar-nav">

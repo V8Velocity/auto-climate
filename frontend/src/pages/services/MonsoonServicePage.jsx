@@ -58,7 +58,7 @@ const generateMonsoonData = () => {
   };
 };
 
-export default function MonsoonServicePage() {
+export default function MonsoonServicePage({ weatherData }) {
   const [monsoonData, setMonsoonData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('status');
