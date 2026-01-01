@@ -55,14 +55,7 @@ This project is fully **full-stack**, built for **smart cities, IoT dashboards, 
 
 ---
 
-## 📸 Screenshots (Add Your Own)
 
-> 📌 Add screenshots inside a `/screenshots` folder
-
-```md
-![Dashboard](screenshots/dashboard.png)
-![Map View](screenshots/map.png)
-![AQI Chart](screenshots/aqi.png)
 
 📁 Project Structure
 auto-climate/
